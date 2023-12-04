@@ -1,0 +1,10 @@
+[build-system]
+requires = [
+    "setuptools",
+    "setuptools-scm"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "QRDataHiding"
+version = "1.0.0"
