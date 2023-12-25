@@ -1,4 +1,14 @@
+annotated-types==0.6.0
+anyio==3.7.1
+exceptiongroup==1.2.0
+fastapi==0.105.0
+./pkg/IBS
+idna==3.6
+Pillow==9.4.0
+pydantic==2.5.3
+pydantic_core==2.14.6
 ./pkg/pyquirc-main
 ./pkg/QRDataHiding
-./pkg/IBS
-Pillow==9.4.0
+sniffio==1.3.0
+starlette==0.27.0
+typing_extensions==4.9.0
