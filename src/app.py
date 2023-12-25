@@ -1,7 +1,7 @@
 from src.verificator import verifyDocument
 from src.generator import generateDocument
 from IBS import IdentityBasedSignature, Point
-import keyManagement
+import src.keyManagement as keyManagement
 
 from fastapi import FastAPI
 from pydantic import BaseModel

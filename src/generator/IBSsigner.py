@@ -1,5 +1,5 @@
 from IBS import IdentityBasedSignature, Point
-import keyManagement
+import src.keyManagement as keyManagement
 # from ..database import keyManagement
 
 # ...
