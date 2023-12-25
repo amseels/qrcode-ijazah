@@ -3,22 +3,7 @@
 
 ## Installation
 
-install packages in `/pkg` directory 
-
- #### Pyquirc
-
- 1. go to `pyquirc-main` folder
- 2. run `python3 -m pip install .`
-
- #### IBS
- 1. go to `IBS` folder
- 2. run `python3 -m pip install .`
- 
- #### QRDataHiding
-
- 1. go to `QRDataHiding` folder
- 2. run `python3 -m pip install .`
-
+`pip install -r requirements.txt`
 
 ## Key Management
 (for now)
