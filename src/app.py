@@ -1,5 +1,5 @@
-from verificator import verifyDocument
-from generator import generateDocument
+from src.verificator import verifyDocument
+from src.generator import generateDocument
 from IBS import IdentityBasedSignature, Point
 import keyManagement
 
