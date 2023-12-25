@@ -1,3 +1,4 @@
 ./pkg/pyquirc-main
 ./pkg/QRDataHiding
 ./pkg/IBS
+Pillow==9.4.0
