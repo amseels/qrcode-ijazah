@@ -10,9 +10,12 @@ def extractFeature(document):
     input: signed document with QR
     output: QR Message, Document Data, Signature
     """
-    publicMsg, hiddenMsg = QRDataHiding.extractQR(document)
-    documentData = __extractDocumentData(document)
-    return publicMsg, hiddenMsg, documentData
+    try:
+        publicMsg, hiddenMsg = QRDataHiding.extractQR(document)
+        documentData = __extractDocumentData(document)
+        return publicMsg, hiddenMsg, documentData
+    except Exception as err:
+        raise err
 
 
 def __extractDocumentData(document):

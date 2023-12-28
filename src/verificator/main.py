@@ -6,8 +6,11 @@ from IBS import IdentityBasedSignature
 # we read images using pillow, numpy arrays do also work
 
 def verifyDocument(ibs: IdentityBasedSignature, document):
-    publicMsg, hiddenMsg, documentData = extractFeature(document)
-
+    try:
+        publicMsg, hiddenMsg, documentData = extractFeature(document)
+    except Exception as err:
+        raise err
+    
     hiddenMsgStat = verifySignature(ibs, publicMsg, hiddenMsg)
     documentStat = verifyDocumentData(publicMsg, documentData)
 
