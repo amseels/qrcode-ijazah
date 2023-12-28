@@ -13,6 +13,10 @@ def extractQR(img):
     # the image must support the 2d buffer protocal with data type uint8
     decoded_codes = quirc.decode(img)
 
+    if len(decoded_codes) == 0 :
+        error_message = "No QR Detected"
+        raise Exception(error_message)
+    
     _, data = decoded_codes[0]
     data = QRData(data)
     public_message, hidden_message = __extractHiddenData(data)

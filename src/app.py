@@ -3,7 +3,7 @@ from src.generator import generateDocument
 from IBS import IdentityBasedSignature, Point
 import src.keyManagement as keyManagement
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from PIL import Image
 import base64
@@ -50,8 +50,11 @@ async def generateQR(data:generateQRinput):
 
 @app.post("/verifyQR")
 async def verifyQR(data:verifyQRinput):
-  res = verifyDocument(ibs,
-                        __decodeImage(data.encodedQRimg))
-  result = verifyQRresult(verificationStat=res)
-  return result
+  try:
+    res = verifyDocument(ibs,
+                          __decodeImage(data.encodedQRimg))
+    result = verifyQRresult(verificationStat=res)
+    return result
+  except Exception as err:
+    raise HTTPException(status_code=400, detail = str(err))
 

@@ -1,0 +1,5 @@
+myenv/
+*.pyc
+pkg/*/build/
+pkg/*/_skbuild/
+*.egg-info
