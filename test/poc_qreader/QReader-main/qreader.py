@@ -12,9 +12,10 @@ Github: https://github.com/Eric-Canas
 from __future__ import annotations
 from warnings import warn
 import numpy as np
-from pyzbar.pyzbar import decode as decodeQR, ZBarSymbol, Decoded
+# from pyzbar.pyzbar import decode as decodeQR, ZBarSymbol, Decoded
 import cv2
 import os
+import quirc
 
 from qrdet import QRDetector, crop_qr, PADDED_QUAD_XY, BBOX_XYXY, CONFIDENCE, CXCY, WH, POLYGON_XY, QUAD_XY
 
@@ -96,19 +97,20 @@ class QReader:
         # Crop the image if a bounding box is given
         decodedQR = self._decode_qr_zbar(image=image, detection_result=detection_result)
         if len(decodedQR) > 0:
-            decoded_str = decodedQR[0].data.decode('utf-8')
-            for encoding in self.reencode_to:
-                try:
-                    decoded_str = decoded_str.encode(encoding).decode('utf-8')
-                    break
-                except (UnicodeDecodeError, UnicodeEncodeError):
-                    pass
-            else:
-                if len(self.reencode_to) > 0:
-                    # When double decoding fails, just return the first decoded string with utf-8
-                    warn(f'Double decoding failed for {self.reencode_to}. Returning utf-8 decoded string.')
+            return decodedQR
+            # decoded_str = decodedQR[0].data.decode('utf-8')
+            # for encoding in self.reencode_to:
+            #     try:
+            #         decoded_str = decoded_str.encode(encoding).decode('utf-8')
+            #         break
+            #     except (UnicodeDecodeError, UnicodeEncodeError):
+            #         pass
+            # else:
+            #     if len(self.reencode_to) > 0:
+            #         # When double decoding fails, just return the first decoded string with utf-8
+            #         warn(f'Double decoding failed for {self.reencode_to}. Returning utf-8 decoded string.')
 
-            return decoded_str
+            # return decoded_str
         return None
 
     def detect_and_decode(self, image: np.ndarray, return_detections: bool = False, is_bgr: bool = False) -> \
@@ -173,8 +175,7 @@ class QReader:
         }
 
     def _decode_qr_zbar(self, image: np.ndarray,
-                        detection_result: dict[str, np.ndarray | float | tuple[float | int, float | int]]) -> list[
-        Decoded]:
+                        detection_result: dict[str, np.ndarray | float | tuple[float | int, float | int]]):
         """
         Try to decode the QR code just with pyzbar, pre-processing the image if it fails in different ways that
         sometimes work.
@@ -199,11 +200,15 @@ class QReader:
 
                 rescaled_image = cv2.resize(src=image, dsize=None, fx=scale_factor, fy=scale_factor,
                                             interpolation=cv2.INTER_CUBIC)
-                decodedQR = decodeQR(image=rescaled_image, symbols=[ZBarSymbol.QRCODE])
+                # decodedQR = decodeQR(image=rescaled_image, symbols=[ZBarSymbol.QRCODE])
+                gray_image = cv2.cvtColor(rescaled_image, cv2.COLOR_BGR2GRAY) 
+                decodedQR = quirc.decode(gray_image)
                 if len(decodedQR) > 0:
                     return decodedQR
                 # For QRs with black background and white foreground, try to invert the image
-                decodedQR = decodeQR(image=255 - rescaled_image, symbols=[ZBarSymbol.QRCODE])
+                # decodedQR = decodeQR(image=255 - rescaled_image, symbols=[ZBarSymbol.QRCODE])
+                gray_image = cv2.cvtColor(255 - rescaled_image, cv2.COLOR_BGR2GRAY) 
+                decodedQR = quirc.decode(gray_image)
                 if len(decodedQR) > 0:
                     return decodedQR
 
@@ -265,8 +270,7 @@ class QReader:
         return dst_img
 
     def __threshold_and_blur_decodings(self, image: np.ndarray,
-                                       blur_kernel_sizes: tuple[tuple[int, int]] = ((3, 3),)) -> \
-            list[Decoded]:
+                                       blur_kernel_sizes: tuple[tuple[int, int]] = ((3, 3),)):
         """
         Try to decode the QR code just with pyzbar, pre-processing the image with different blur and threshold
         filters.
@@ -275,14 +279,16 @@ class QReader:
         """
 
         assert 2 <= len(image.shape) <= 3, f"image must be 2D or 3D (HxW[xC]) (uint8). Got {image.shape}"
-        decodedQR = decodeQR(image=image, symbols=[ZBarSymbol.QRCODE])
+        # decodedQR = decodeQR(image=image, symbols=[ZBarSymbol.QRCODE])
+        decodedQR = quirc.decode(image)
         if len(decodedQR) > 0:
             return decodedQR
 
         # Try to binarize the image (Only works with 2D images)
         if len(image.shape) == 2:
             _, binary_image = cv2.threshold(image, thresh=0, maxval=255, type=cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-            decodedQR = decodeQR(image=binary_image, symbols=[ZBarSymbol.QRCODE])
+            # decodedQR = decodeQR(image=binary_image, symbols=[ZBarSymbol.QRCODE])
+            decodedQR = quirc.decode(binary_image)
             if len(decodedQR) > 0:
                 return decodedQR
 
@@ -294,7 +300,8 @@ class QReader:
 
             # If it not works, try to parse to sharpened grayscale
             blur_image = cv2.GaussianBlur(src=image, ksize=kernel_size, sigmaX=0)
-            decodedQR = decodeQR(image=blur_image, symbols=[ZBarSymbol.QRCODE])
+            # decodedQR = decodeQR(image=blur_image, symbols=[ZBarSymbol.QRCODE])
+            decodedQR = quirc.decode(blur_image)
             if len(decodedQR) > 0:
                 return decodedQR
         return []
