@@ -11,6 +11,8 @@ from .wrapper import (
     zbar_image_set_size, zbar_image_set_data, zbar_scan_image,
     zbar_image_first_symbol, zbar_symbol_get_data_length,
     zbar_symbol_get_data, zbar_symbol_get_orientation,
+    zbar_symbol_get_ecc_level, zbar_symbol_get_version, zbar_symbol_get_eci,
+    zbar_symbol_get_payload_after_ecc, zbar_symbol_get_payload_after_ecc_length,
     zbar_symbol_get_loc_size, zbar_symbol_get_loc_x, zbar_symbol_get_loc_y,
     zbar_symbol_get_quality, zbar_symbol_next, ZBarConfig, ZBarOrientation,
     ZBarSymbol, EXTERNAL_DEPENDENCIES,
@@ -23,7 +25,7 @@ __all__ = [
 
 ORIENTATION_AVAILABLE = zbar_symbol_get_orientation is not None
 
-Decoded = namedtuple('Decoded', 'data type rect polygon quality orientation')
+QRData = namedtuple('QRData', 'data type rect polygon quality orientation payload_after_ecc ecc_level version eci') #MODIFIED_START_HERE
 
 # ZBar's magic 'fourcc' numbers that represent image formats
 _FOURCC = {
@@ -105,6 +107,16 @@ def _decode_symbols(symbols):
             zbar_symbol_get_data(symbol),
             zbar_symbol_get_data_length(symbol)
         )
+        # QRCode-Ijazah: #MODIFIED_START_HERE
+        payload_after_ecc = string_at(
+            zbar_symbol_get_payload_after_ecc(symbol),
+            zbar_symbol_get_payload_after_ecc_length(symbol)
+        )
+        ecc_level = zbar_symbol_get_ecc_level(symbol)
+        version = zbar_symbol_get_version(symbol)
+        eci = zbar_symbol_get_eci(symbol)
+        # #MODIFIED_END_HERE
+
         # The 'type' int should be a value in the ZBarSymbol enumeration
         try:
             symbol_type = ZBarSymbol(symbol.contents.type)
@@ -128,13 +140,19 @@ def _decode_symbols(symbols):
         else:
             orientation = None
 
-        yield Decoded(
+        yield QRData(
             data=data,
             type=symbol_type,
             rect=bounding_box(polygon),
             polygon=polygon,
             orientation=orientation,
             quality=quality,
+            #MODIFIED_START_HERE
+            payload_after_ecc=payload_after_ecc,
+            ecc_level=ecc_level,
+            version=version,
+            eci=eci,
+            #MODIFIED_END_HERE
         )
 
 

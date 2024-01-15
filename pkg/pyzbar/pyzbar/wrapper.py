@@ -270,6 +270,37 @@ zbar_symbol_get_loc_y = zbar_function(
     c_uint
 )
 
+# QRCode-Ijazah: #MODIFIED_START_HERE
+zbar_symbol_get_payload_after_ecc_length = zbar_function(
+    'zbar_symbol_get_payload_after_ecc_length',
+    c_uint,
+    POINTER(zbar_symbol)
+)
+
+zbar_symbol_get_payload_after_ecc = zbar_function(
+    'zbar_symbol_get_payload_after_ecc',
+    c_ubyte_p,
+    POINTER(zbar_symbol)
+)
+
+zbar_symbol_get_version = zbar_function(
+    'zbar_symbol_get_version',
+    c_ubyte,
+    POINTER(zbar_symbol)
+)
+
+zbar_symbol_get_ecc_level = zbar_function(
+    'zbar_symbol_get_ecc_level',
+    c_ubyte,
+    POINTER(zbar_symbol)
+)
+
+zbar_symbol_get_eci = zbar_function(
+    'zbar_symbol_get_eci',
+    c_uint,
+    POINTER(zbar_symbol)
+)
+# #MODIFIED_END_HERE 
 
 try:
     zbar_symbol_get_orientation = zbar_function(
