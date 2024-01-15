@@ -1,0 +1,5 @@
+{
+    "scripts": {
+      "build": "sudo apt-get install libgtk-4-dev; sudo make install /pkg/zbar-master"
+    }
+  }
