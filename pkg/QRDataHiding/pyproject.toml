@@ -1,7 +1,9 @@
 [build-system]
 requires = [
     "setuptools",
-    "setuptools-scm"
+    "setuptools-scm",
+    "numpy",
+    "opencv-python"
 ]
 build-backend = "setuptools.build_meta"
 
