@@ -23,7 +23,7 @@ def __decodeImage(bytesImg):
 	img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
 	return img
 
-list_files = os.listdir("./DB-QR")
+list_files = os.listdir("test/dataset_from_app")
 list_files = sorted(list_files)
 qreader = QReader()
 # list_files = ["qrtest_from_app_01.jpeg"]
@@ -32,7 +32,7 @@ print('{:40} \t| {} | {:27} | {}'.format("FILENAME", "DETECTED", "VERIFICATION S
 for filename in list_files:
 	if filename == "base64.txt":
 		continue
-	filename = "./DB-QR/" + filename
+	filename = "test/dataset_from_app/" + filename
 	with open(filename, "rb") as image_file:
 		encoded_qr = base64.b64encode(image_file.read())
 
@@ -61,7 +61,7 @@ qreader = QReader()
 # list_files = ["qrtest_from_app.jpeg"]
 print('{:40} \t| {} | {:27} | {}'.format("FILENAME", "DETECTED", "VERIFICATION STATUS", "RESPONSE TIME"))
 list_files = []
-exec(open("./dataset_from_app/base64.txt", "rb").read())
+exec(open("test/dataset_from_app/base64.txt", "rb").read())
 filename = "qrtest_from_app_"
 for idx, img_file in enumerate(list_files):
 
