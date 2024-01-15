@@ -7,7 +7,6 @@ idna==3.6
 Pillow==9.4.0
 pydantic==2.5.3
 pydantic_core==2.14.6
-./pkg/pyquirc-main
 ./pkg/pyzbar
 ./pkg/QReader-main
 ./pkg/QRDataHiding
