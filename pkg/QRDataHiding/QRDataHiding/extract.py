@@ -1,24 +1,28 @@
 from PIL import Image, ImageOps
 from .QRData import QRData
 import quirc
+from qreader import QReader
 
-def extractQR(img):
+def extractQR(qreader: QReader, img):
     """
     return public_message, hidden_message
     #TO_DO_LIST
     """
     # we need to convert to grayscale for quirc
-    img = ImageOps.grayscale(img)
+    # img = ImageOps.grayscale(img)
     
     # the image must support the 2d buffer protocal with data type uint8
-    decoded_codes = quirc.decode(img)
+    # decoded_codes = quirc.decode(img)
 
-    if len(decoded_codes) == 0 :
+    # Modification for Qreader()
+    decoded_codes = qreader.detect_and_decode(image=img)[0]
+
+    if decoded_codes == None :
         error_message = "No QR Detected"
         raise Exception(error_message)
-    
-    _, data = decoded_codes[0]
-    data = QRData(data)
+
+    # _, data = decoded_codes[0]
+    data = QRData(decoded_codes[0])
     public_message, hidden_message = __extractHiddenData(data)
 
     return public_message, hidden_message
