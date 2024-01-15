@@ -1,0 +1,44 @@
+make  install-recursive
+make[1]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master'
+Making install in zbar
+make[2]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/zbar'
+make[3]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/zbar'
+ /usr/bin/mkdir -p '/usr/lib'
+ /bin/bash ../libtool   --mode=install /usr/bin/install -c   libzbar.la '/usr/lib'
+libtool: install: /usr/bin/install -c .libs/libzbar.so.0.3.0 /usr/lib/libzbar.so.0.3.0
+libtool: install: (cd /usr/lib && { ln -s -f libzbar.so.0.3.0 libzbar.so.0 || { rm -f libzbar.so.0 && ln -s libzbar.so.0.3.0 libzbar.so.0; }; })
+libtool: install: (cd /usr/lib && { ln -s -f libzbar.so.0.3.0 libzbar.so || { rm -f libzbar.so && ln -s libzbar.so.0.3.0 libzbar.so; }; })
+libtool: install: /usr/bin/install -c .libs/libzbar.lai /usr/lib/libzbar.la
+libtool: install: /usr/bin/install -c .libs/libzbar.a /usr/lib/libzbar.a
+libtool: install: chmod 644 /usr/lib/libzbar.a
+libtool: install: ranlib /usr/lib/libzbar.a
+make[3]: Nothing to be done for 'install-data-am'.
+make[3]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/zbar'
+make[2]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/zbar'
+Making install in po
+make[2]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/po'
+installing pt_BR.gmo as /usr/share/locale/pt_BR/LC_MESSAGES/zbar.mo
+if test "zbar" = "gettext-tools"; then \
+  /usr/bin/mkdir -p /usr/share/gettext/po; \
+  for file in Makefile.in.in remove-potcdate.sin quot.sed boldquot.sed en@quot.header en@boldquot.header insert-header.sin Rules-quot   Makevars.template; do \
+    /usr/bin/install -c -m 644 ./$file \
+		    /usr/share/gettext/po/$file; \
+  done; \
+  for file in Makevars; do \
+    rm -f /usr/share/gettext/po/$file; \
+  done; \
+else \
+  : ; \
+fi
+make[2]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/po'
+Making install in gtk
+make[2]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/gtk'
+make  install-am
+make[3]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/gtk'
+make[4]: Entering directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/gtk'
+ /usr/bin/mkdir -p '/usr/lib'
+ /bin/bash ../libtool   --mode=install /usr/bin/install -c   libzbargtk.la '/usr/lib'
+make[4]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/gtk'
+make[3]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/gtk'
+make[2]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master/gtk'
+make[1]: Leaving directory '/home/amseels/Documents/qrcode-ijazah/pkg/QRDataHiding/QRDataHiding/zbar-master'

@@ -1,0 +1,54 @@
+name: CMake
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  ubuntu_build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: install packages
+      run: |
+        sudo apt-get install libpng-dev libjpeg-dev zlib1g-dev -y
+    
+    - uses: actions/checkout@v2
+
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+
+  windows_build:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install vcpkg
+      run: |
+        mkdir ${{github.workspace}}/v
+        pushd ${{github.workspace}}/v
+        git clone https://github.com/microsoft/vcpkg.git
+        cd vcpkg
+        ./bootstrap-vcpkg.bat
+        ./vcpkg integrate install
+        ./vcpkg install libjpeg-turbo libjpeg-turbo:x64-windows
+        ./vcpkg install libpng libpng:x64-windows
+        ./vcpkg install libiconv libiconv:x64-windows
+        ./vcpkg install zlib zlib:x64-windows
+        popd
+    
+    - name: Configure CMake
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} ${{github.workspace}}
+        -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
