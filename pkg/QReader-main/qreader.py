@@ -12,7 +12,7 @@ Github: https://github.com/Eric-Canas
 from __future__ import annotations
 from warnings import warn
 import numpy as np
-from pyzbar.pyzbar import decode as decodeQR, ZBarSymbol, Decoded
+from pyzbar.pyzbar import decode as decodeQR, ZBarSymbol, QRData
 import cv2
 import os
 
@@ -161,7 +161,7 @@ class QReader:
 
     def _decode_qr_zbar(self, image: np.ndarray,
                         detection_result: dict[str, np.ndarray | float | tuple[float | int, float | int]]) -> list[
-        Decoded]:
+        QRData]:
         """
         Try to decode the QR code just with pyzbar, pre-processing the image if it fails in different ways that
         sometimes work.
@@ -253,12 +253,12 @@ class QReader:
 
     def __threshold_and_blur_decodings(self, image: np.ndarray,
                                        blur_kernel_sizes: tuple[tuple[int, int]] = ((3, 3),)) -> \
-            list[Decoded]:
+            list[QRData]:
         """
         Try to decode the QR code just with pyzbar, pre-processing the image with different blur and threshold
         filters.
         :param image: np.ndarray. The image to be read. It must be a 2D or 3D np.ndarray (HxW[xC]) (uint8).
-        :return: list[Decoded]. The decoded QR code/s in the zbar format. If it fails, it will return an empty list.
+        :return: list[QRData]. The decoded QR code/s in the zbar format. If it fails, it will return an empty list.
         """
 
         assert 2 <= len(image.shape) <= 3, f"image must be 2D or 3D (HxW[xC]) (uint8). Got {image.shape}"
