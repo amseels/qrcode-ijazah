@@ -17,4 +17,3 @@ bitarray
 gmpy2
 pypng
 pytest
-qreader
