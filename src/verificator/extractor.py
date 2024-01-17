@@ -1,8 +1,9 @@
 from PIL import Image, ImageOps
 import quirc
 import QRDataHiding
+from qreader import QReader
 
-def extractFeature(document):
+def extractFeature(Qreader: QReader, document):
     """
     #TO_DO_LIST
 
@@ -11,7 +12,7 @@ def extractFeature(document):
     output: QR Message, Document Data, Signature
     """
     try:
-        publicMsg, hiddenMsg = QRDataHiding.extractQR(document)
+        publicMsg, hiddenMsg = QRDataHiding.extractQR(Qreader, document)
         documentData = __extractDocumentData(document)
         return publicMsg, hiddenMsg, documentData
     except Exception as err:

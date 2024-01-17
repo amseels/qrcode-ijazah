@@ -25,14 +25,24 @@ class QRData:
     mask: int
     
     def __init__(self, config):
-        self.payload = config.payload
-        self.payload_no_ecc = config.payload_no_ecc
+        # self.payload = config.payload
+        # self.payload_no_ecc = config.payload_no_ecc
+        # self.payload_after_ecc = config.payload_after_ecc
+        # self.version = config.version
+        # self.data_type = config.data_type
+        # self.eci = config.eci
+        # self.ecc_level = config.ecc_level
+        # self.mask = config.mask
+
+        # ZBAR
+        self.payload = config.data
+        self.payload_no_ecc = None
         self.payload_after_ecc = config.payload_after_ecc
         self.version = config.version
-        self.data_type = config.data_type
+        self.data_type = None
         self.eci = config.eci
         self.ecc_level = config.ecc_level
-        self.mask = config.mask
+        self.mask = None
     
     def __str__(self):
         return f'QRData(  payload = {self.payload!r}' \
@@ -44,4 +54,3 @@ class QRData:
         f',\n\t ecc_level = {self.ecc_level}' \
         f',\n\t mask = {self.mask}' \
         '\n\t )'
-    
