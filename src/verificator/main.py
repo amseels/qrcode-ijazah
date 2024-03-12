@@ -9,11 +9,14 @@ from qreader import QReader
 def verifyDocument(ibs: IdentityBasedSignature, qreader: QReader, document):
     try:
         publicMsg, hiddenMsg, documentData = extractFeature(qreader, document)
+        print("== PUBLIC MESSAGE ==")
+        print(publicMsg)
+        print("=====================")
+        if hiddenMsg == "":
+            return False
+        hiddenMsgStat = verifySignature(ibs, publicMsg, hiddenMsg)
+        documentStat = verifyDocumentData(publicMsg, documentData)
+
+        return (hiddenMsgStat and documentStat)
     except Exception as err:
         raise err
-    
-    hiddenMsgStat = verifySignature(ibs, publicMsg, hiddenMsg)
-    documentStat = verifyDocumentData(publicMsg, documentData)
-
-    return (hiddenMsgStat and documentStat)
-

@@ -7,15 +7,14 @@ def verifySignature(ibs: IdentityBasedSignature, publicMsg, hiddenMsg):
   #TO_DO_LIST: Description
   verify
   """
-  # cleanPublicMsg = __cleanPublicMessage(publicMsg)
-  ID, s1_compressed, S2, date, copyNum = __splitHiddenData(hiddenMsg)
-  Z_ID = __getAuthPublicKey(ID)
-  print("-- public message --")
-  print(publicMsg)
-  print("--------------------")
-  signatureStat = ibs.verify(s1_compressed, S2, publicMsg, ID, Z_ID)
-  return signatureStat
-
+  try:
+    # cleanPublicMsg = __cleanPublicMessage(publicMsg)
+    ID, s1_compressed, S2, date, copyNum = __splitHiddenData(hiddenMsg)
+    Z_ID = __getAuthPublicKey(ID)
+    signatureStat = ibs.verify(s1_compressed, S2, publicMsg, ID, Z_ID)
+    return signatureStat
+  except Exception as err:
+        raise err
 
 def __splitHiddenData(hiddenQRData):
   """

@@ -11,30 +11,35 @@ import base64
 from io import BytesIO
 import numpy as np
 import cv2
+import traceback
 # uvicorn API:app --reload
 
 def __decodeImage(bytesImg):
 	"""
 	decode base64 img into Image file
 	"""
-	bytesDecoded = base64.b64decode(bytesImg + b"==")
-	# img = Image.open(BytesIO(bytesDecoded))
-	im_arr = np.frombuffer(bytesDecoded, dtype=np.uint8)  # im_arr is one-dim Numpy array
-	img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
-	return img
+	try:
+		bytesDecoded = base64.b64decode(bytesImg + b"==")
+		# img = Image.open(BytesIO(bytesDecoded))
+		im_arr = np.frombuffer(bytesDecoded, dtype=np.uint8)  # im_arr is one-dim Numpy array
+		img = cv2.imdecode(im_arr, flags=cv2.IMREAD_COLOR)
+		return img
+	except Exception as err:
+		raise err
+
 
 class generateQRinput(BaseModel):
-  publicMsg: str
-  authorID: str
+	publicMsg: str
+	authorID: str
 
 class generateQRresult(BaseModel):
-   encodedQRimg : bytes
+	 encodedQRimg : bytes
 
 class verifyQRinput(BaseModel):
-  encodedQRimg : bytes
+	encodedQRimg : bytes
 
 class verifyQRresult(BaseModel):
-   verificationStat : bool
+	 verificationStat : bool
 
 ibs = IdentityBasedSignature(keyManagement.standard, keyManagement.Pub)
 qreader = QReader()
@@ -43,20 +48,22 @@ app = FastAPI()
 
 @app.post("/generateQR")
 async def generateQR(data:generateQRinput):
-  QRimg = generateDocument(ibs,
-                           data.publicMsg,
-                           data.authorID)
-  result = generateQRresult(encodedQRimg=QRimg)
-  return result
+	QRimg = generateDocument(ibs,
+													 data.publicMsg,
+													 data.authorID)
+	result = generateQRresult(encodedQRimg=QRimg)
+	return result
 
 @app.post("/verifyQR")
 async def verifyQR(data:verifyQRinput):
-  try:
-    res = verifyDocument(ibs,
-                         qreader,
-                          __decodeImage(data.encodedQRimg))
-    result = verifyQRresult(verificationStat=res)
-    return result
-  except Exception as err:
-    raise HTTPException(status_code=400, detail = str(err))
+	try:
+		res = verifyDocument(ibs,
+												 qreader,
+													__decodeImage(data.encodedQRimg))
+		result = verifyQRresult(verificationStat=res)
+		return result
+	except Exception:
+		print(traceback.format_exc())
+		result = verifyQRresult(verificationStat=False)
+		return result
 
