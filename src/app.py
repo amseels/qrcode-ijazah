@@ -24,9 +24,7 @@ def __decodeImage(bytesImg):
 	return img
 
 class generateQRinput(BaseModel):
-  documentTitle: str
-  studentName: str
-  studentID: str
+  publicMsg: str
   authorID: str
 
 class generateQRresult(BaseModel):
@@ -46,9 +44,7 @@ app = FastAPI()
 @app.post("/generateQR")
 async def generateQR(data:generateQRinput):
   QRimg = generateDocument(ibs,
-                           data.documentTitle,
-                           data.studentName,
-                           data.studentID,
+                           data.publicMsg,
                            data.authorID)
   result = generateQRresult(encodedQRimg=QRimg)
   return result

@@ -3,13 +3,13 @@ import datetime
 from IBS import IdentityBasedSignature
 import QRDataHiding
 
-def generateMsg(ibs: IdentityBasedSignature, documentTitle: str, name: str , studentID: str, authorID: str):
-    publicMsg = __generatePublicMsg(documentTitle, name, studentID)
+def generateMsg(ibs: IdentityBasedSignature, publicMsg:str, authorID: str):
+    # publicMsg = __generatePublicMsg(documentTitle, name, studentID)
     hiddenMsg = __generateHiddenMsg(ibs, publicMsg, authorID)
     return publicMsg, hiddenMsg
 
-def generateQR(ibs: IdentityBasedSignature, documentTitle: str, name: str , studentID: str, authorID: str):
-    publicMsg, hiddenMsg = generateMsg(ibs, documentTitle, name, studentID, authorID)
+def generateQR(ibs: IdentityBasedSignature, publicMsg, authorID: str):
+    publicMsg, hiddenMsg = generateMsg(ibs, publicMsg, authorID)
     QRimg = QRDataHiding.generateQR(publicMsg, hiddenMsg)
     return QRimg
 

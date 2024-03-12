@@ -21,11 +21,11 @@ def signDocument(ibs: IdentityBasedSignature, publicMsg: str, authorID: str):
   """
   authPrivKey = __getAuthPrivateKey(authorID)
   authPubKey = __getAuthPublicKey(authorID)
-  cleanPublicMsg = __cleanPublicMessage(publicMsg)
+  # cleanPublicMsg = __cleanPublicMessage(publicMsg)
   print("-- public message --")
-  print(cleanPublicMsg)
+  print(publicMsg)
   print("--------------------")
-  S1_compressed, S2 = ibs.sign(authorID, cleanPublicMsg, authPrivKey, authPubKey)
+  S1_compressed, S2 = ibs.sign(authorID, publicMsg, authPrivKey, authPubKey)
   return S1_compressed, S2
 
 def __getAuthPublicKey(authorID):
