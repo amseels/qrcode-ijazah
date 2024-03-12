@@ -43,7 +43,7 @@ class IdentityBasedSignature:
 		S1 = self.EC.multiplication_point(x_ID, Z_ID) #x_ID*Z_ID
 		S1_compressed = self.EC.pointCompression(S1)
 		h = self.H2(m, ID, Z_ID, self.Pub)
-		S2 = ((x_ID + h) % self.EC.p) * d_ID
+		S2 = ((x_ID + h) % self.EC.n) * d_ID
 		print("=== IBS SIGN ===")
 		print("n", self.EC.n)
 		print("Z_ID", Z_ID)
