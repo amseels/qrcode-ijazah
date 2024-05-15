@@ -1,6 +1,6 @@
 from PIL import Image, ImageOps
 from .QRData import QRData
-import quirc
+# import quirc
 from qreader import QReader
 
 def extractQR(qreader: QReader, img):
