@@ -1,5 +1,4 @@
 from PIL import Image, ImageOps
-import quirc
 import QRDataHiding
 from qreader import QReader
 
