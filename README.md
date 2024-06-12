@@ -2,7 +2,14 @@
 # qrcode-ijazah
 
 ## Installation
+### Install modified ZBar
+1. go to /pkg/zbar-master
+2. run `apt-get install gettext libtool autopoint libgtk-4-dev libmagickwand-dev`
+3. run `autoreconf -vfi`
+4. run `./configure --prefix=/usr --with-gtk=auto --with-python=auto --disable-video`
+5. run `make install`
 
+### Install other packages
 `pip install -r requirements.txt`
 
 ## Key Management
