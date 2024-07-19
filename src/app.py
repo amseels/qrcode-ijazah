@@ -39,7 +39,7 @@ class verifyQRinput(BaseModel):
 	encodedQRimg : bytes
 
 class verifyQRresult(BaseModel):
-	 verificationStat : bool
+	 verificationStat : str
 
 ibs = IdentityBasedSignature(keyManagement.standard, keyManagement.Pub)
 qreader = QReader()
@@ -60,10 +60,11 @@ async def verifyQR(data:verifyQRinput):
 		res = verifyDocument(ibs,
 												 qreader,
 													__decodeImage(data.encodedQRimg))
-		result = verifyQRresult(verificationStat=res)
+		result = verifyQRresult(verificationStat=str(res))
 		return result
 	except Exception:
-		print(traceback.format_exc())
-		result = verifyQRresult(verificationStat=False)
+		print("ERROR")
+		# print(traceback.format_exc())
+		result = verifyQRresult(verificationStat="Error")
 		return result
 
