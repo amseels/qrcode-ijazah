@@ -13,7 +13,7 @@ def verifyDocument(ibs: IdentityBasedSignature, qreader: QReader, document):
         print(publicMsg)
         print("=====================")
         if hiddenMsg == "":
-            return False
+            return "Error"
         hiddenMsgStat = verifySignature(ibs, publicMsg, hiddenMsg)
         documentStat = verifyDocumentData(publicMsg, documentData)
 
