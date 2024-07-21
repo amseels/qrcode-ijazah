@@ -108,10 +108,16 @@ def _decode_symbols(symbols):
             zbar_symbol_get_data_length(symbol)
         )
         # QRCode-Ijazah: #MODIFIED_START_HERE
-        payload_after_ecc = string_at(
-            zbar_symbol_get_payload_after_ecc(symbol),
-            zbar_symbol_get_payload_after_ecc_length(symbol)
-        )
+        payload_after_ecc_length = zbar_symbol_get_payload_after_ecc_length(symbol)
+        if (b'QRIS' in data and data[:3] != b'SEC'):
+            payload_after_ecc_length = -1
+        if (payload_after_ecc_length > 0 and payload_after_ecc_length < 2147483647):
+            payload_after_ecc = string_at(
+                zbar_symbol_get_payload_after_ecc(symbol),
+                payload_after_ecc_length
+            )
+        else :
+            payload_after_ecc = ""
         ecc_level = zbar_symbol_get_ecc_level(symbol)
         version = zbar_symbol_get_version(symbol)
         eci = zbar_symbol_get_eci(symbol)
