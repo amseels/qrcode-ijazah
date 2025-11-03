@@ -55,7 +55,10 @@ static zbarEnumItem *enumitem_new(PyTypeObject *type, PyObject *args,
 #else
     Py_SIZE(&self->val)	  = Py_SIZE(longval);
 #endif
-    self->val.ob_digit[0] = longval->ob_digit[0];
+    long v = PyLong_AsLong((PyObject*) longval);
+    if (v == -1 && PyErr_Occurred())
+        return NULL;
+    self->val = *((PyLongObject*) PyLong_FromLong(v));
     Py_DECREF(longval);
 #else
     self->val.ob_ival = val;
@@ -138,7 +141,10 @@ zbarEnumItem *zbarEnumItem_New(PyObject *byname, PyObject *byvalue, int val,
 #else
     Py_SIZE(&self->val)	  = Py_SIZE(longval);
 #endif
-    self->val.ob_digit[0] = longval->ob_digit[0];
+    long v = PyLong_AsLong((PyObject*) longval);
+    if (v == -1 && PyErr_Occurred())
+        return NULL;
+    self->val = *((PyLongObject*) PyLong_FromLong(v));
     Py_DECREF(longval);
 
     self->name = PyUnicode_FromString(name);
