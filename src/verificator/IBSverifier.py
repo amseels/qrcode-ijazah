@@ -20,17 +20,10 @@ def __splitHiddenData(hiddenQRData):
   """
   Split variable from extracted QR data
   """
-  ID =  hiddenQRData[:5]
-  Sign = hiddenQRData[5:-10]
-  signComp = Sign.split('|')
+  ID, s1_compressed, S2, date, copyNum = hiddenQRData.split('|')
   
-  s1_compressed = signComp[0]
   s1_compressed = str(int(s1_compressed, 16))
-  S2 = signComp[1]
   S2 = int(S2, 16)
-
-  date = hiddenQRData[-10:-4]
-  copyNum = hiddenQRData[-4:]
 
   return ID, s1_compressed, S2, date, copyNum
 
@@ -44,10 +37,10 @@ def __cleanPublicMessage(public_message_raw):
     # public_message = public_message[1:-1]
     return public_message
 
-def __getAuthPublicKey(ID):
+def __getAuthPublicKey(authorID):
   """
   Z_ID
   #TO_DO_LIST
   """
-  authPubKey = keyManagement.Z_ID
+  authPubKey = keyManagement.keys[authorID]["Z_ID"]
   return authPubKey

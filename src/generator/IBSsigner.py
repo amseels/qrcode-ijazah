@@ -33,7 +33,7 @@ def __getAuthPublicKey(authorID):
   Z_ID
   #TO_DO_LIST 
   """
-  authPubKey = keyManagement.Z_ID
+  authPubKey = keyManagement.keys[authorID]["Z_ID"]
   return authPubKey
 
 def __getAuthPrivateKey(authorID):
@@ -41,7 +41,7 @@ def __getAuthPrivateKey(authorID):
   d_ID
   #TO_DO_LIST
   """
-  authPrivKey = keyManagement.d_ID
+  authPrivKey = keyManagement.keys[authorID]["d_ID"]
   return authPrivKey
 
 def __cleanPublicMessage(public_message_raw):

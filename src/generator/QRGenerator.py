@@ -23,8 +23,7 @@ def __generateHiddenMsg(ibs: IdentityBasedSignature, publicMsg: str, authorID: s
     s2Hex = '{:x}'.format(int(S2))
     date = str(datetime.datetime.today().strftime('%d%m%y'))
     copyNum = '0000' #TO_DO_LIST
-    
-    hiddenMsg = str(authorID) + s1Hex + '|' + s2Hex + str(date) + str(copyNum)
+    hiddenMsg = str(authorID) + '|' + s1Hex + '|' + s2Hex + "|" + str(date) + "|" + str(copyNum)
     return hiddenMsg
 
 def __generatePublicMsg(documentTitle: str, name:str, studentID: str):
