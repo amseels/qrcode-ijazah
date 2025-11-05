@@ -12,7 +12,7 @@ def verifySignature(ibs: IdentityBasedSignature, publicMsg, hiddenMsg):
     ID, s1_compressed, S2, date, copyNum = __splitHiddenData(hiddenMsg)
     Z_ID = __getAuthPublicKey(ID)
     signatureStat = ibs.verify(s1_compressed, S2, publicMsg, ID, Z_ID)
-    return signatureStat
+    return signatureStat, ID
   except Exception as err:
         raise err
 

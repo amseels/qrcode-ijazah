@@ -41,6 +41,7 @@ class verifyQRinput(BaseModel):
 class verifyQRresult(BaseModel):
 	verificationStat : str
 	verifyTime : str
+	authorID : str
 
 ibs = IdentityBasedSignature(keyManagement.standard, keyManagement.Pub)
 qreader = QReader()
@@ -58,10 +59,10 @@ async def generateQR(data:generateQRinput):
 @app.post("/verifyQR")
 async def verifyQR(data:verifyQRinput):
 	try:
-		res, verifyTime = verifyDocument(ibs,
+		res, verifyTime, authorID = verifyDocument(ibs,
 												 qreader,
 													__decodeImage(data.encodedQRimg))
-		result = verifyQRresult(verificationStat=str(res), verifyTime=verifyTime)
+		result = verifyQRresult(verificationStat=str(res), verifyTime=verifyTime, authorID=authorID)
 		return result
 	except Exception:
 		print("ERROR")

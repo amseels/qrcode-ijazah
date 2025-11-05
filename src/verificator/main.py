@@ -21,11 +21,11 @@ def verifyDocument(ibs: IdentityBasedSignature, qreader: QReader, document):
         # start Timer
         start_time = time.time()
         # run Verify Function     
-        hiddenMsgStat = verifySignature(ibs, publicMsg, hiddenMsg)
+        hiddenMsgStat, authorID = verifySignature(ibs, publicMsg, hiddenMsg)
         documentStat = verifyDocumentData(publicMsg, documentData)
         # Calculate the elapsed time of Verify Function
         verifyTime =  str(time.time() - start_time)
 
-        return (hiddenMsgStat and documentStat), verifyTime
+        return (hiddenMsgStat and documentStat), verifyTime, authorID
     except Exception as err:
         raise err
